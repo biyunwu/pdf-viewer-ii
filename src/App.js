@@ -1,92 +1,47 @@
 import React, { Component } from 'react';
-import PDFViewer from 'mgr-pdf-viewer-react';
-import { Button, Icon } from 'antd';
-const ButtonGroup = Button.Group;
+import Viewer from './Viewer';
+import './App.css'
 
-class App extends Component {
+const chapters = [
+    'Introduction',
+    'Chapter 1: The Origin of the Concept of Ālayavijñāna',
+    'Chapter 2: Ālayavijñāna in the Cheng Weishi Lun: A Buddhist Theory of the Subliminal Mind',
+    'Chapter 3: The Unconscious: Freud and Jung',
+    'Chapter 4: Three Paradigms of the Subliminal Mind: Xuan Zang, Freud, and Jung',
+    'Chapter 5: Accessibility of the Subliminal Mind: Transcendence versus Immanence',
+    'Conclusion: An Emerging New World as a New Context',
+    'Notes'
+]
+
+export default class App extends Component {
     state = {
-        data: null,
-        chapter: 1,
-        scale: 1.5
+        chapter: undefined
     }
 
-    componentDidMount () {
-        // const basename = `data:application/pdf;base64,JVBERi0xLj`
-        const basename = `JVBERi0xLj`
-        fetch(`https://freud-viewer.herokuapp.com/freud/${this.state.chapter}`)
-        .then(
-                (response) => {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' +
-                    response.status);
-                    return;
-                }
-                // Examine the text in the response
-                response.json().then((data) => {
-                    const base64 = basename + data.content;
-                    // console.log(data);
-                    this.setState({data: this.base64ToArrayBuffer(base64)})
-                });
-            }
-        )
-        .catch(function(err) {
-            console.log('Fetch Error :-S', err);
-        });
+    updateChapter = (idx) => {
+        console.log(idx)
+        this.setState({chapter: idx})
     }
 
-    base64ToArrayBuffer = (base64) => {
-        const raw =  window.atob(base64);
-        const rawLength = raw.length;
-        const array = new Uint8Array(new ArrayBuffer(rawLength));
-        for (let i = 0; i < rawLength; i++){
-            array[i] = raw.charCodeAt(i);
-        }
-        return array;
-    }
+    createChapterElements = () => 
+        <ul>
+            {chapters.map((chapter, idx) => 
+                <li key={chapter}
+                    className='chapter-list'
+                    onClick={this.updateChapter.bind(this, idx)}
+                >
+                    {chapter}
+                </li>
+            )}
+        </ul>
 
     render() {
-        const {data, scale} = this.state
+        const { chapter } = this.state
         return (
-            data &&
-            <React.Fragment>
-                <ButtonGroup style={{position: "fixed"}}>
-                    <Button type="default">
-                        <Icon type="left"/>Previous
-                    </Button>
-                    <Button type="default">
-                        Next<Icon type="right" />
-                    </Button>
-                </ButtonGroup>
-                <PDFViewer 
-                    document={{
-                        binary: data
-                    }}
-                    scale={scale}
-                    navigation={{
-                        css: {
-                            // previousPageBtn: 'previous-button', // CSS Class for the previous page button
-                            // nextPageBtn: 'next-button', // CSS Class for the next page button
-                            pages: 'page-num', // CSS Class for the pages indicator
-                            wrapper: 'control-panel' // CSS Class for the navigation wrapper
-                        },
-                        // elements: {
-                        //     previousPageBtn: Any, // previous page button React element
-                        //     nextPageBtn: Any, // next page button React element
-                        //     pages: Any// pages indicator React Element
-                        // }
-                    }}
-                />
-            </React.Fragment>
-        );
+            chapter >= 0 ?
+                <Viewer chapter={chapter}/>
+            :
+                this.createChapterElements()
+        )
     }
 }
-
-// function Control (props) {
-//     return (
-//         <div>
-
-//         </div>
-//     )
-// }
-
-export default App;
