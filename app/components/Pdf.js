@@ -7,11 +7,14 @@ export default class Pdf extends Component {
         scale: 1.5,
         numPages: null,
         // pageNumber: 1,
-        chapter: 1,
+        chapter: this.props.chapter,
         data: null
     }
 
     componentDidMount () {
+        // if (this.props.chapter !== this.state.chapter){
+        //     this.setState({chapter: this.props.chapter})
+        // }
         const chapter = this.state.chapter
         if (chapter >= 0 ) {
             const basename = `JVBERi0xLj`
@@ -34,6 +37,12 @@ export default class Pdf extends Component {
             .catch(function(err) {
                 console.log('Fetch Error :-S', err);
             });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.chapter !== this.props.chapter) {
+            this.setState({chapter: nextProps.chapter})
         }
     }
 
