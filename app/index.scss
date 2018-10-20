@@ -1,8 +1,6 @@
-@import './hamburgers/hamburgers.scss';
-
 // customized Burger icon settings should be done first. More details: https://github.com/jonsuh/hamburgers
-$hamburger-padding-x           : 10px;
-$hamburger-padding-y           : 16px;
+$hamburger-padding-x           : 30px;
+$hamburger-padding-y           : 30px;
 $hamburger-layer-width         : 30px;
 $hamburger-layer-height        : 1px;
 $hamburger-layer-spacing       : 6px;
@@ -12,6 +10,8 @@ $hamburger-hover-opacity       : 1;
 $hamburger-active-layer-color  : rgba(0,0,0,.84);
 $hamburger-active-hover-opacity: $hamburger-hover-opacity;
 
+@import './hamburgers/hamburgers.scss';
+
 // $background-image: url('https://taojiangscholar.com/static/media/buddism-cover.d48deeab.jpg');
 html, body, #app {
     // background-image: $background-image;
@@ -19,6 +19,11 @@ html, body, #app {
     height: 100%;
     margin: 0;
     padding: 0;
+
+    button::selection, button:active, button:focus {
+        outline: none;
+        border: none;
+    }
 }
 
 canvas {
@@ -26,9 +31,31 @@ canvas {
 }
 
 nav {
-    // background-color: rgb(236, 133, 19);
-    // height: 100%;
+    background-color: rgb(236, 133, 19);
+    height: 100%;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    text-align: center;
     
     #nav-list {
+        // list-style: square;
+        // padding-top: 100px;
+        padding-left: 0;
+        
+        height: 100vh;
+        width: 100vw;
+
+        li {
+            text-align: left;
+            cursor: pointer;
+            margin: 20px auto;
+            width: 70%;
+        }
+
+        #list-container {
+            position: absolute;
+            margin: 0 auto !important;
+        }
     }
 }
