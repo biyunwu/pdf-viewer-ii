@@ -19,24 +19,11 @@ export default class App extends React.Component {
         isSidebarOpen: true,
         chapter: undefined,
         data: null
+        // currChapterData: null
     }
 
-    updateSidebarStatus = () => {
-        this.setState(prevState => ({isSidebarOpen: !prevState.isSidebarOpen}))
-    }
-
-    handleChapterChange = (chapter) => {
-        this.setState({ data: this.getData(chapter)})
-    }
-
-    getData = (chapter) => {
-        // if (this.props.chapter !== this.state.chapter){
-        //     this.setState({chapter: this.props.chapter})
-        // }
-        // const chapter = this.state.chapter
-        if (chapter >= 0 ) {
-            const basename = `JVBERi0xLj`
-            fetch(`https://freud-viewer.herokuapp.com/freud/${chapter}`)
+    componentDidMount () {
+        fetch(`https://freud-viewer.herokuapp.com/freud`)
             .then(
                     (response) => {
                     if (response.status !== 200) {
@@ -46,16 +33,26 @@ export default class App extends React.Component {
                     }
                     // Examine the text in the response
                     response.json().then((data) => {
-                        const base64 = basename + data.content;
+                        const decodedData = [];
+                        const basename = `JVBERi0xLj`
+                        chapters.forEach((c, idx) => {
+                            const base64 = basename + data[idx].content
+                            decodedData.push(this.base64ToArrayBuffer(base64))
+                        });
                         // console.log(data);
-                        this.setState({data: this.base64ToArrayBuffer(base64)})
-                    });
-                }
-            )
-            .catch(function(err) {
+                        this.setState({data: decodedData})
+                    })}
+            ).catch(function(err) {
                 console.log('Fetch Error :-S', err);
             });
-        }
+    }
+
+    updateSidebarStatus = () => {
+        this.setState(prevState => ({isSidebarOpen: !prevState.isSidebarOpen}))
+    }
+
+    handleChapterChange = (chapter) => {
+        this.setState({ chapter })
     }
 
     base64ToArrayBuffer = (base64) => {
@@ -80,10 +77,7 @@ export default class App extends React.Component {
                     updateSidebarStatus={this.updateSidebarStatus}
                     handleChapterChange={this.handleChapterChange}
                 />
-                {/* {chapters.map((chapterText, idx) => 
-                    chapter === idx && <Pdf key={idx} chapter={chapter}/>
-                )} */}
-                {data && <Pdf data={data} />}
+                {data && chapter>=0 && <Pdf data={data[chapter]} />}
             </React.Fragment>
         )
     }
