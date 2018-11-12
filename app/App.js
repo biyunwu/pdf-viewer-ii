@@ -5,11 +5,11 @@ import Navbar from './components/Navbar'
 const chapters = [
     "Introduction",
     "Chapter 1: The Origin of the Concept of Ālayavijñāna",
-    "chapter 2: Ālayavijñāna in the Cheng Weishi Lun: A Buddhist Theory of the Subliminal Mind",
-    "chapter 3: The Unconscious: Freud and Jung",
-    "chapter 4: Three Paradigms of the Subliminal Mind: Xuan Zang, Freud, and Jung",
-    "chapter 5: Accessibility of the Subliminal Mind: Transcendence versus Immanence",
-    "conclusion: An Emerging New World as a New Context",
+    "Chapter 2: Ālayavijñāna in the Cheng Weishi Lun: A Buddhist Theory of the Subliminal Mind",
+    "Chapter 3: The Unconscious: Freud and Jung",
+    "Chapter 4: Three Paradigms of the Subliminal Mind: Xuan Zang, Freud, and Jung",
+    "Chapter 5: Accessibility of the Subliminal Mind: Transcendence versus Immanence",
+    "Conclusion: An Emerging New World as a New Context",
     "Notes and Index"
 ]
 const title = 'Contexts and Dialogue: Yogācāra Buddhism and Modern Psychology on the Subliminal Mind'
@@ -18,14 +18,14 @@ export default class App extends React.Component {
     state = {
         isSidebarOpen: true,
         chapter: undefined,
-        data: null
-        // currChapterData: null
+        data: null,
+        currChapterData: null
     }
 
     componentDidMount () {
         fetch(`https://freud-viewer.herokuapp.com/freud`)
             .then(
-                    (response) => {
+                response => {
                     if (response.status !== 200) {
                         console.log('Looks like there was a problem. Status Code: ' +
                         response.status);
@@ -38,11 +38,14 @@ export default class App extends React.Component {
                         chapters.forEach((c, idx) => {
                             const base64 = basename + data[idx].content
                             decodedData.push(this.base64ToArrayBuffer(base64))
-                        });
-                        // console.log(data);
-                        this.setState({data: decodedData})
-                    })}
-            ).catch(function(err) {
+                        })
+                        console.log("Decoded Data: ", decodedData)
+                        // console.log(this);
+                        return decodedData
+                        // this.setState({data: decodedData})
+                    }).then(data => this.setState({data: data}))
+                })
+            .catch(function(err) {
                 console.log('Fetch Error :-S', err);
             });
     }
@@ -52,7 +55,10 @@ export default class App extends React.Component {
     }
 
     handleChapterChange = (chapter) => {
-        this.setState({ chapter })
+        const data = this.state.data
+        if (data){
+            this.setState({chapter: chapter, currChapterData: data[chapter]})
+        } 
     }
 
     base64ToArrayBuffer = (base64) => {
@@ -66,8 +72,8 @@ export default class App extends React.Component {
     }
 
     render() {
-        const { isSidebarOpen, chapter, data } = this.state
-        console.log(chapter)
+        const { isSidebarOpen, chapter, currChapterData } = this.state
+        console.log("Chapter: ", chapter)
         return (
             <React.Fragment>
                 <Navbar
@@ -77,7 +83,14 @@ export default class App extends React.Component {
                     updateSidebarStatus={this.updateSidebarStatus}
                     handleChapterChange={this.handleChapterChange}
                 />
-                {data && chapter>=0 && <Pdf data={data[chapter]} />}
+                <Pdf
+                    chapter={chapter}
+                    data={currChapterData} 
+                    isSidebarOpen={isSidebarOpen}
+                />
+                {!currChapterData && 
+                    <h2 style={{marginTop: 0}}>Select chapters from the menu icon at the top left corner.</h2>
+                }
             </React.Fragment>
         )
     }

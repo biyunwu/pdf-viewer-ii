@@ -7,9 +7,9 @@ export default class Pdf extends Component {
         scale: 1.5,
         numPages: null,
         // pageNumber: 1,
-        chapter: this.props.chapter,
+        // chapter: this.props.chapter,
         // data: null
-        data: this.props.data
+        // data: this.props.data
     }
 
     // componentDidMount () {
@@ -61,17 +61,21 @@ export default class Pdf extends Component {
         this.setState({ numPages });
     }
 
-    getAllPageComponents = (numPages) => {
-        const pages = []
-        for (let i=1; i<=numPages; i++) {
-            pages.push(<Page pageNumber={i} />)
-        }
-        return pages
-    }
+    // getAllPageComponents = (numPages) => {
+    //     const pages = []
+    //     for (let i=1; i<=numPages; i++) {
+    //         pages.push(<Page pageNumber={i} />)
+    //     }
+    //     return pages
+    // }
 
     render() {
-        const { scale, numPages, data } = this.state;
-        console.log(this.state)
+        const { scale, numPages } = this.state;
+        const data = this.props.data;
+        // Prevent content form scolling when menu bar is open.
+        this.props.isSidebarOpen
+            ? document.getElementsByTagName("body")[0].style.overflow = "hidden"
+            : document.getElementsByTagName("body")[0].style.overflow = ""
         return ( 
             data &&
             <div>

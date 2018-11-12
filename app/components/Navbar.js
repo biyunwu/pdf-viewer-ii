@@ -5,13 +5,14 @@ export default function Navbar (props) {
     // Refer to Hamburgers library: https://github.com/jonsuh/hamburgers
     const menuBaseClassName = "hamburger hamburger--collapse"
     const menuClassName = isSidebarOpen ? menuBaseClassName.concat(" is-active") : menuBaseClassName
-    // const navStyle = isSidebarOpen? {height: "100vh"} : {}
-    const listStyle = isSidebarOpen? {} : {position: "fixed", top: "-1000px"}
+    const navOpenStyle = {position: "fixed", overflowY: "auto"}
+    const navStyle = isSidebarOpen? navOpenStyle: {position: "fixed", top: "-1000px"}
+    const burgerIconStyle = {position: isSidebarOpen? "absolute": "fixed", top: "0", left: "0", zIndex: "999"}
 
     return (
-        <nav style={listStyle}>
+        <nav style={navStyle}>
             <button id='burger' className={menuClassName} type="button"
-                style={{position: "fixed", top: "0", left: "0", zIndex: "999"}}
+                style={burgerIconStyle}
                 aria-label="Menu" aria-controls="sidebar"
                 onClick={updateSidebarStatus}
             >
@@ -23,10 +24,10 @@ export default function Navbar (props) {
                 <img
                     src='https://taojiangscholar.com/static/media/logo.5fef45d2.png'
                     alt='The logo of the website'
-                    style={{height: "40px", margin:'20px auto'}}
+                    style={{height: "40px", margin:'30px auto'}}
                 />
             </a>
-            <h2>{title}</h2>
+            <h2 style={{marginTop: "0", padding: "0 5%"}}>{title}</h2>
             <ul id="nav-list">
                 {chapters.map((chapter, idx) => 
                     <li
