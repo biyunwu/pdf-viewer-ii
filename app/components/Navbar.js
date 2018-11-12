@@ -1,4 +1,5 @@
 import React from 'react'
+import Footer from './Footer'
 
 export default function Navbar (props) {
     const {isSidebarOpen, title, chapters, updateSidebarStatus, handleChapterChange} = props
@@ -24,7 +25,7 @@ export default function Navbar (props) {
                 <img
                     src='https://taojiangscholar.com/static/media/logo.5fef45d2.png'
                     alt='The logo of the website'
-                    style={{height: "40px", margin:'30px auto'}}
+                    style={{height: "40px", margin:'20px auto'}}
                 />
             </a>
             <h2 style={{marginTop: "0", padding: "0 5%"}}>{title}</h2>
@@ -38,6 +39,7 @@ export default function Navbar (props) {
                     </li>
                 )}
             </ul>
+            <Footer/>
         </nav>
     )
 }

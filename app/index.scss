@@ -10,6 +10,9 @@ $hamburger-hover-opacity       : 1;
 $hamburger-active-layer-color  : rgba(0,0,0,.84);
 $hamburger-active-hover-opacity: $hamburger-hover-opacity;
 
+// $navlink-color: rgba(0,0,0,0.45);
+// $nav-link-font: 'SF Pro Text Light';
+
 @import './hamburgers/hamburgers.scss';
 
 // $background-image: url('https://taojiangscholar.com/static/media/buddism-cover.d48deeab.jpg');
@@ -60,6 +63,45 @@ nav {
     }
 }
 
-.frozen {
-    overflow: hidden !important;
-}
+// .footer {
+//     font-family: $nav-link-font;
+//     font-size: 11px;
+//     text-transform: uppercase;
+//     color: $navlink-color;
+//     text-align: center;
+//     // border-top: $border-color solid 1px;
+//     padding: 20px 0 11px 0;
+//     margin-bottom: 1em;
+
+//     p {
+//         max-width: 100%;
+//     }
+
+//     .icon-gap {
+//         display: inline-block;
+//         width: 10px;
+//     }
+
+//     .icon {
+//         height: 18px;
+//     }
+
+//     &:hover {
+//         color: $main-text-color;
+
+//         a {
+//             color: $main-text-color;
+//             text-decoration: underline;
+//         }
+//     }
+
+//     a {
+//         color: $navlink-color;
+//         cursor: pointer;
+//         text-decoration: none;
+//     }
+
+//     .footer-text {
+//         text-align: center;
+//     }
+// }
