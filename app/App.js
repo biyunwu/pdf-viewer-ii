@@ -24,30 +24,30 @@ export default class App extends React.Component {
 
     componentDidMount () {
         fetch(`https://freud-viewer.herokuapp.com/freud`)
-            .then(
-                response => {
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-                        return;
-                    }
-                    // Examine the text in the response
-                    response.json().then((data) => {
-                        const decodedData = [];
-                        const basename = `JVBERi0xLj`
-                        chapters.forEach((c, idx) => {
-                            const base64 = basename + data[idx].content
-                            decodedData.push(this.base64ToArrayBuffer(base64))
-                        })
-                        console.log("Decoded Data: ", decodedData)
-                        // console.log(this);
-                        return decodedData
-                        // this.setState({data: decodedData})
-                    }).then(data => this.setState({data: data}))
-                })
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-            });
+        .then(
+            response => {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                    return;
+                }
+                // Examine the text in the response
+                response.json().then((data) => {
+                    const decodedData = [];
+                    const basename = `JVBERi0xLj`
+                    chapters.forEach((c, idx) => {
+                        const base64 = basename + data[idx].content
+                        decodedData.push(this.base64ToArrayBuffer(base64))
+                    })
+                    console.log("Decoded Data: ", decodedData)
+                    // console.log(this);
+                    return decodedData
+                    // this.setState({data: decodedData})
+                }).then(data => this.setState({data: data}))
+            })
+        .catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
     }
 
     updateSidebarStatus = () => {
@@ -89,7 +89,7 @@ export default class App extends React.Component {
                     isSidebarOpen={isSidebarOpen}
                 />
                 {!currChapterData &&
-                    <div style={{height: "100%", width: "100%", paddingTop: "30%"}}>
+                    <div style={{height: "100%", width: "100%", paddingTop: "40vh"}}>
                         <h2 style={{textAlign: "center"}}>Select chapters from the menu icon at the top left corner.</h2>
                     </div>
                 }

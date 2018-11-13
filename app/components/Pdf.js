@@ -78,9 +78,9 @@ export default class Pdf extends Component {
             ? document.getElementsByTagName("body")[0].style.overflow = "hidden"
             : document.getElementsByTagName("body")[0].style.overflow = ""
         return (
+            data &&
             <React.Fragment>
-                {data &&
-                <div>
+                <div id="pdf">
                     <Document
                         file={{data: data}}
                         onLoadSuccess={this.onDocumentLoadSuccess}
@@ -95,7 +95,7 @@ export default class Pdf extends Component {
                             />)
                         }
                     </Document>
-                </div>}
+                </div>
                 <Footer />
             </React.Fragment>
         )
