@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { Page } from 'react-pdf';
-import { Document } from 'react-pdf/dist/entry.webpack';
+import React, { Component } from 'react'
+import { Page } from 'react-pdf'
+import { Document } from 'react-pdf/dist/entry.webpack'
+import Footer from './Footer'
 
 export default class Pdf extends Component {
     state = {
@@ -76,24 +77,27 @@ export default class Pdf extends Component {
         this.props.isSidebarOpen
             ? document.getElementsByTagName("body")[0].style.overflow = "hidden"
             : document.getElementsByTagName("body")[0].style.overflow = ""
-        return ( 
-            data &&
-            <div>
-                <Document
-                    file={{data: data}}
-                    onLoadSuccess={this.onDocumentLoadSuccess}
-                    loading='Loading... Please wait.'
-                >
-                    {/* Convert numPages to array which has elements from 1 to numPages */
-                        Array.apply(null, Array(numPages)).map(function (_, i) {return i+1}).map(num => 
-                        <Page
-                            key={num}
-                            pageNumber={num}
-                            scale={scale}
-                        />)
-                    }
-                </Document>
-            </div>
+        return (
+            <React.Fragment>
+                {data &&
+                <div>
+                    <Document
+                        file={{data: data}}
+                        onLoadSuccess={this.onDocumentLoadSuccess}
+                        loading='Loading... Please wait.'
+                    >
+                        {/* Convert numPages to array which has elements from 1 to numPages */
+                            Array.apply(null, Array(numPages)).map(function (_, i) {return i+1}).map(num => 
+                            <Page
+                                key={num}
+                                pageNumber={num}
+                                scale={scale}
+                            />)
+                        }
+                    </Document>
+                </div>}
+                <Footer />
+            </React.Fragment>
         )
     }
 }
