@@ -88,8 +88,10 @@ export default class App extends React.Component {
                     data={currChapterData} 
                     isSidebarOpen={isSidebarOpen}
                 />
-                {!currChapterData && 
-                    <h2 style={{marginTop: 0}}>Select chapters from the menu icon at the top left corner.</h2>
+                {!currChapterData &&
+                    <div style={{height: "100%", width: "100%", paddingTop: "30%"}}>
+                        <h2 style={{textAlign: "center"}}>Select chapters from the menu icon at the top left corner.</h2>
+                    </div>
                 }
             </React.Fragment>
         )
